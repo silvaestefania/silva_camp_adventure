@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⛺ The Adventure Camp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #2d9e6b;
+      --lime:    #84cc16;
+      --orange:  #f97316;
+      --yellow:  #fbbf24;
+      --sky:     #0ea5e9;
+      --purple:  #a855f7;
+      --pink:    #ec4899;
+      --brown:   #92400e;
+      --tan:     #fef3c7;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #fdf6ec;
+      background-image:
+        radial-gradient(circle at 10% 20%, #d1fae5 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, #fce7f3 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, #fffbeb 0%, transparent 60%);
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #134e2a 0%, #1a6b3a 40%, #2d9e6b 75%, #84cc16 100%);
+      padding: 56px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 15% 30%, rgba(255,255,255,.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 70%, rgba(255,220,50,.1) 0%, transparent 50%);
+    }
+    /* stars */
+    .stars {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 3s infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: .2; transform: scale(1); }
+      to   { opacity: .9; transform: scale(1.4); }
+    }
+
+    .hero-tent {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 10px;
+      animation: sway 4s ease-in-out infinite;
+      position: relative;
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-4deg); }
+      50%      { transform: rotate(4deg); }
+    }
+    .hero h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      color: #fff;
+      text-shadow: 3px 4px 0 rgba(0,0,0,.25);
+      position: relative;
+    }
+    .hero p.tagline {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: #d1fae5;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    /* wavy divider */
+    .wave {
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* ── TIMELINE WRAPPER ── */
+    .timeline {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── CARD ── */
+    .event {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 20px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    /* left: time + line */
+    .event-time-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .time-badge {
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      padding: 6px 8px;
+      border-radius: 12px;
+      color: #fff;
+      text-align: center;
+      line-height: 1.2;
+      white-space: nowrap;
+      box-shadow: 0 3px 10px rgba(0,0,0,.15);
+      z-index: 1;
+      min-width: 72px;
+    }
+    .connector {
+      flex: 1;
+      width: 3px;
+      background: linear-gradient(to bottom, #d1d5db, transparent);
+      margin-top: 6px;
+    }
+
+    /* right: card body */
+    .card {
+      border-radius: 22px;
+      padding: 24px 28px 28px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.09);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: attr(data-emoji);
+      position: absolute;
+      right: 20px; top: 16px;
+      font-size: 2.8rem;
+      opacity: .15;
+    }
+    .card-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+    }
+
+    /* color themes */
+    .t-green  { background: #f0fdf4; } .t-green  .card-title { color: #15803d; }
+    .t-orange { background: #fff7ed; } .t-orange .card-title { color: #c2410c; }
+    .t-sky    { background: #f0f9ff; } .t-sky    .card-title { color: #0369a1; }
+    .t-purple { background: #faf5ff; } .t-purple .card-title { color: #7e22ce; }
+    .t-yellow { background: #fefce8; } .t-yellow .card-title { color: #a16207; }
+    .t-pink   { background: #fdf2f8; } .t-pink   .card-title { color: #9d174d; }
+    .t-teal   { background: #f0fdfa; } .t-teal   .card-title { color: #0f766e; }
+    .t-lime   { background: #f7fee7; } .t-lime   .card-title { color: #3f6212; }
+
+    .badge-green  { background: linear-gradient(135deg,#16a34a,#84cc16); }
+    .badge-orange { background: linear-gradient(135deg,#f97316,#fbbf24); }
+    .badge-sky    { background: linear-gradient(135deg,#0ea5e9,#6366f1); }
+    .badge-purple { background: linear-gradient(135deg,#a855f7,#ec4899); }
+    .badge-yellow { background: linear-gradient(135deg,#f59e0b,#f97316); }
+    .badge-pink   { background: linear-gradient(135deg,#ec4899,#a855f7); }
+    .badge-teal   { background: linear-gradient(135deg,#14b8a6,#0ea5e9); }
+    .badge-lime   { background: linear-gradient(135deg,#84cc16,#16a34a); }
+
+    /* kid tags */
+    .kid-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .tag {
+      font-family: 'Fredoka One', cursive;
+      font-size: .8rem;
+      padding: 4px 14px;
+      border-radius: 999px;
+      color: #fff;
+    }
+    .tag-9  { background: linear-gradient(90deg,#6366f1,#a855f7); }
+    .tag-2  { background: linear-gradient(90deg,#f97316,#fbbf24); }
+    .tag-both { background: linear-gradient(90deg,#14b8a6,#84cc16); }
+
+    /* activity sections */
+    .activity {
+      margin-bottom: 16px;
+      background: rgba(255,255,255,.65);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .activity:last-child { margin-bottom: 0; }
+    .activity-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: .95rem;
+      color: #6b7280;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .activity p, .activity li {
+      font-size: .95rem;
+      font-weight: 600;
+      color: #374151;
+      line-height: 1.55;
+    }
+    .activity ul { padding-left: 18px; }
+    .activity li { margin-bottom: 4px; }
+
+    /* parent hack box */
+    .hack {
+      background: linear-gradient(135deg,#fef9c3,#fde68a);
+      border-left: 4px solid #f59e0b;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: .9rem;
+      font-weight: 700;
+      color: #78350f;
+    }
+    .hack strong { color: #92400e; }
+
+    /* ── EVENING SECTION ── */
+    .evening {
+      max-width: 860px;
+      margin: 0 auto 20px;
+      padding: 0 20px;
+    }
+    .evening-card {
+      background: linear-gradient(135deg,#134e2a 0%,#1a6b3a 60%,#2d9e6b 100%);
+      border-radius: 28px;
+      padding: 36px 36px 40px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,.2);
+    }
+    .evening-card::before {
+      content: '🌲🌲🌲';
+      position: absolute;
+      right: 28px; bottom: 20px;
+      font-size: 3rem;
+      opacity: .2;
+    }
+    .evening-card h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem,4vw,2.2rem);
+      margin-bottom: 14px;
+      text-shadow: 2px 3px 0 rgba(0,0,0,.2);
+    }
+    .evening-card p {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.7;
+      color: #d1fae5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: .85rem;
+      color: #9ca3af;
+      font-weight: 700;
+    }
+
+    @media (max-width: 520px) {
+      .event { grid-template-columns: 64px 1fr; gap: 0 12px; }
+      .card { padding: 18px 18px 22px; }
+      .time-badge { font-size: .75rem; min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="stars" id="stars"></div>
+    <span class="hero-tent">⛺</span>
+    <h1>The Adventure Camp</h1>
+    <p class="tagline">A full day of exploring, building & making memories!</p>
+  </header>
+
+  <svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:50px;width:100%;display:block;margin-top:-1px;">
+    <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#fdf6ec"/>
+  </svg>
+
+  <!-- MORNING TIMELINE -->
+  <div class="timeline">
+
+    <!-- 9:00 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-green">9:00<br>AM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-green" data-emoji="🔭">
+        <div class="card-title">Camp Check-In & DIY Gear</div>
+        <div class="kid-tags">
+          <span class="tag tag-both">Both Kids</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🧻 The Craft</div>
+          <p>Every camper needs gear! Tape two toilet paper rolls together and let them decorate their very own binoculars.</p>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🖊️ 9-Year-Old</div>
+          <p>Markers, stickers & ties on a yarn lanyard for their binoculars.</p>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🟡 2-Year-Old</div>
+          <p>Big stickers and dot markers — the more colorful, the better!</p>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🌿 Independent Play</div>
+          <p>Once made, they explore the yard through their binoculars while you prep the next station.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9:40 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-orange">9:40<br>AM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-orange" data-emoji="🦕">
+        <div class="card-title">Sensory Bin Expedition</div>
+        <div class="kid-tags">
+          <span class="tag tag-2">2-Year-Old</span>
+          <span class="tag tag-9">9-Year-Old</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🐛 2yo — "Muddy Safari"</div>
+          <p>Fill a bin with cloud dough (8 cups flour + 1 cup baby oil) or dry oats. Add plastic bugs and small shovels for digging fun.</p>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🧊 9yo — "Frozen Archaeologist"</div>
+          <p>Freeze plastic dinosaurs or camp tokens in a block of ice the night before. Give them a spray bottle of warm water, salt & a plastic tool to chip them free!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10:20 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-sky">10:20<br>AM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-sky" data-emoji="📦">
+        <div class="card-title">KiwiCo Crate Discovery</div>
+        <div class="kid-tags">
+          <span class="tag tag-both">Both Kids</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🌳 Outside on a blanket</div>
+          <p>Unpack the KiwiCrates in the fresh air. The perfect window for focused, independent building.</p>
+          <ul style="margin-top:8px;">
+            <li>Your 9-year-old can follow the blueprint solo.</li>
+            <li>Give hands-on guidance to the toddler's crate.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11:00 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-lime">11:00<br>AM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-lime" data-emoji="🗺️">
+        <div class="card-title">The Great Basecamp Hunt</div>
+        <div class="kid-tags">
+          <span class="tag tag-9">9-Year-Old</span>
+          <span class="tag tag-2">2-Year-Old</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">📋 9yo — Scavenger Checklist</div>
+          <p>Give them a written checklist with riddles — <em>"Find something smooth, something shaped like a Y, 5 pieces of kindling for tonight."</em></p>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🎨 2yo — Color Wheel Hunt</div>
+          <p>Paint a color wheel on a paper plate with clothespins. They match a leaf to the green spot, a flower to the yellow spot — nature color-matching!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11:40 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-yellow">11:40<br>AM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-yellow" data-emoji="🌭">
+        <div class="card-title">Mess Hall Lunch</div>
+        <div class="kid-tags">
+          <span class="tag tag-both">Both Kids</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🧺 Camp-Style Eating</div>
+          <ul>
+            <li>Sit on a picnic blanket — no tables allowed!</li>
+            <li>"Camp skewers" — fruit or cheese &amp; meat cubes on sticks.</li>
+            <li>Hot dogs or sandwiches wrapped in foil.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12:20 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-purple">12:20<br>PM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-purple" data-emoji="🧱">
+        <div class="card-title">Lego Basecamp Builders</div>
+        <div class="kid-tags">
+          <span class="tag tag-both">Both Kids</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🏕️ The Challenge</div>
+          <p>Transition to calm, low-energy independent play. Challenge them to build a <strong>"Camp Site"</strong> out of their Lego sets!</p>
+        </div>
+        <div class="hack">
+          🔑 <strong>Parent Hack:</strong> Perfect buffer zone if your 2-year-old needs an afternoon nap. If they sleep, the 9-year-old can dive deep into their Lego build completely uninterrupted.
+        </div>
+      </div>
+    </div>
+
+    <!-- 1:00 -->
+    <div class="event">
+      <div class="event-time-col">
+        <div class="time-badge badge-sky">1:00<br>PM</div>
+        <div class="connector"></div>
+      </div>
+      <div class="card t-teal" data-emoji="💦">
+        <div class="card-title">Splash Camp & Water Play</div>
+        <div class="kid-tags">
+          <span class="tag tag-both">Both Kids</span>
+        </div>
+        <div class="activity">
+          <div class="activity-label">🫧 Beat the Afternoon Slump</div>
+          <p>Fill a shallow plastic storage bin with water, dish soap & sponges.</p>
+          <ul style="margin-top:8px;">
+            <li>Wash their plastic camp toys.</li>
+            <li>Scrub the rocks they found on the hunt.</li>
+            <li>Target-practice with spray bottles against a fence.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EVENING CARD -->
+  <div class="evening">
+    <div class="evening-card">
+      <h2>🪵 Late Afternoon & The Evening Main Event</h2>
+      <p>
+        After the high-density morning, transition into an open afternoon of <strong>pitching the tent together.</strong>
+        <br><br>
+        The 9-year-old can actually help feed the tent poles through the canopy — a real job with real responsibility.
+        <br><br>
+        The 2-year-old can test out the sleeping pads and sleeping bags inside. Their job is officially <em>Camp Inspector.</em>
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Made with 💚 &nbsp;|&nbsp; The Adventure Camp &nbsp;|&nbsp; An unforgettable day in the wild backyard
+  </footer>
+
+  <script>
+    // Sprinkle stars in hero
+    const container = document.getElementById('stars');
+    for (let i = 0; i < 22; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = 2 + Math.random() * 4;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        top:${Math.random()*100}%;
+        left:${Math.random()*100}%;
+        animation-delay:${Math.random()*3}s;
+        animation-duration:${2+Math.random()*2}s;
+      `;
+      container.appendChild(s);
+    }
+  </script>
+</body>
+</html>
